@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Map;
 
+=======
+>>>>>>> 3934a3b3191a1c650f0bad8c8435ddf0524b2028
 @RestController
 @RequestMapping("/card_brand")
 public class card_brandController {
@@ -44,8 +47,14 @@ public class card_brandController {
     }
     @PutMapping("/{cardBrandId}")
     @PreAuthorize("hasAnyRole('client_user', 'client_admin')")
+<<<<<<< HEAD
     public ResponseEntity<card_brand> updateCardBrand(@PathVariable BigInteger cardBrandId, @RequestParam Map<String, String> formData) {
         card_brand updatedCardBrandResult = cardBrandService.updateCardBrand(cardBrandId, formData);
+=======
+    //lỗi định dạng
+    public ResponseEntity<card_brand> updateCardBrand(@PathVariable BigInteger cardBrandId, @RequestBody card_brand updatedCardBrand) {
+        card_brand updatedCardBrandResult = cardBrandService.updateCardBrand(cardBrandId, updatedCardBrand);
+>>>>>>> 3934a3b3191a1c650f0bad8c8435ddf0524b2028
         if (updatedCardBrandResult != null) {
             return ResponseEntity.ok(updatedCardBrandResult);
         } else {
