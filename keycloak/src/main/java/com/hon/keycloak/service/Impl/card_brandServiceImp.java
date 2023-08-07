@@ -7,11 +7,10 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.List;
-<<<<<<< HEAD
+
 import java.util.Map;
 
-=======
->>>>>>> 3934a3b3191a1c650f0bad8c8435ddf0524b2028
+
 @Service
 public class card_brandServiceImp implements card_brandService{
     private final card_brandRepository cardBrandRepository;
@@ -42,23 +41,16 @@ public class card_brandServiceImp implements card_brandService{
     public void deleteCardBrand(BigInteger cardBrandId) {
         cardBrandRepository.deleteById(cardBrandId);
     }
-<<<<<<< HEAD
+
     @Override
     public card_brand updateCardBrand(BigInteger cardBrandId, Map<String, String> formData) {
         card_brand existingCardBrand = cardBrandRepository.findById(cardBrandId).orElse(null);
         if (existingCardBrand != null) {
             String nameBrand = formData.get("name_brand");
             existingCardBrand.setName_brand(nameBrand);
-=======
 
-    @Override
-    public card_brand updateCardBrand(BigInteger cardBrandId, card_brand updatedCardBrand) {
-        card_brand existingCardBrand = cardBrandRepository.findById(cardBrandId).orElse(null);
-        if (existingCardBrand != null) {
-            existingCardBrand.setName_brand(updatedCardBrand.getName_brand());
->>>>>>> 3934a3b3191a1c650f0bad8c8435ddf0524b2028
-            return cardBrandRepository.save(existingCardBrand);
-        }
-        return null;
+                    return cardBrandRepository.save(existingCardBrand);
+                }
+                return null;
+            }
     }
-}
