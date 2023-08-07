@@ -27,7 +27,7 @@ public class cardController {
     public ResponseEntity<List<card>> findAllCard() {
         return ResponseEntity.ok(cardService.getAllCard());
     }
-    @GetMapping("/{cardBrandId}")
+    @GetMapping("/{cardId}")
     @PreAuthorize("hasAnyRole('client_user', 'client_admin')")
     public ResponseEntity<card> getCard(@PathVariable BigInteger cardId) {
         return ResponseEntity.ok((card) cardService.getCard(cardId));
@@ -38,13 +38,13 @@ public class cardController {
         card savedCard = cardService.saveCard(card);
         return ResponseEntity.ok(savedCard);
     }
-    @DeleteMapping("/{cardBrandId}")
+    @DeleteMapping("/{cardId}")
     @PreAuthorize("hasAnyRole('client_user', 'client_admin')")
     public ResponseEntity<List<card>> deleteCard(@PathVariable BigInteger cardId) {
         cardService.deleteCard(cardId);
         return ResponseEntity.ok(cardService.getAllCard());
     }
-    @PutMapping("/{cardBrandId}")
+    @PutMapping("/{cardId}")
     @PreAuthorize("hasAnyRole('client_user', 'client_admin')")
     public ResponseEntity<card> updateCard(@PathVariable BigInteger cardId, @RequestParam Map<String, String> formData) {
         card updatedCardResult = cardService.updateCard(cardId, formData);

@@ -16,7 +16,7 @@ import java.util.Set;
 @Table(name = "card")
 public class card {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger card_id;
     private int amount;
     private String card_number;
