@@ -68,7 +68,7 @@ CREATE TABLE user_model_report (
   PRIMARY KEY (user_id, report_id),
   CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES user_model(user_id),
   CONSTRAINT fk_report FOREIGN KEY(report_id) REFERENCES report(report_id)
-)
+);
 CREATE TABLE saving_target(
 	sv_id BIGINT PRIMARY KEY,
 	name_sv VARCHAR(255) NOT NULL,
@@ -103,7 +103,7 @@ CREATE TABLE wallet_currency (
   PRIMARY KEY (wallet_id, currency_id),
   CONSTRAINT fk_wallet FOREIGN KEY(wallet_id) REFERENCES wallet(wallet_id),
   CONSTRAINT fk_currency FOREIGN KEY(currency_id) REFERENCES currency(currency_id)
-)
+);
 CREATE TABLE wallet (
     wallet_id BIGINT PRIMARY KEY,
     cash INT NOT NULL,
