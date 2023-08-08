@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
-
+//test
 @RestController
 @RequestMapping("/outcome")
 public class outcomeController {
@@ -31,6 +31,7 @@ public class outcomeController {
     public ResponseEntity<outcome> getOutcome(@PathVariable BigInteger outcomeId) {
         return ResponseEntity.ok((outcome) outcomeService.getOutcome(outcomeId));
     }
+
     @PostMapping
     @PreAuthorize("hasRole('client_admin')")
     public ResponseEntity<outcome> saveOutcome(outcome outcome) {
