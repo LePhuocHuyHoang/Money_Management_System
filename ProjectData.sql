@@ -18,42 +18,44 @@ CREATE TABLE transactions (
     transaction_id BIGINT PRIMARY KEY,
     amount INT NOT NULL,
 	note VARCHAR(255) NOT NULL,
-	card_id BIGINT NOT NULL,
-	wallet_id BIGINT NOT NULL,
-	outcome_id BIGINT NOT NULL,
-	income_id BIGINT NOT NULL,
+	card_id BIGINT,
+	wallet_id BIGINT,
+	outcome_id BIGINT,
+	income_id BIGINT,
 	CONSTRAINT transactions_card
         FOREIGN KEY (card_id)
         REFERENCES card (card_id),
 	CONSTRAINT transactions_wallet
         FOREIGN KEY (wallet_id)
-        REFERENCES wallet (wallet_id),
-	CONSTRAINT transactions_outcome
-        FOREIGN KEY (outcome_id)
-        REFERENCES outcome (outcome_id),
-	CONSTRAINT transactions_income
-        FOREIGN KEY (income_id)
-        REFERENCES income (income_id)
+        REFERENCES wallet (wallet_id)
 );
-CREATE TABLE transaction_categogy (
-  transaction_id BIGINT NOT NULL,
-  categogy_id BIGINT NOT NULL,
-  PRIMARY KEY (transaction_id, categogy_id),
+CREATE TABLE transaction_category (
+  transaction_id BIGINT ,
+  category_id BIGINT ,
+  PRIMARY KEY (transaction_id, category_id),
   CONSTRAINT fk_transaction FOREIGN KEY(transaction_id) REFERENCES transactions(transaction_id),
-  CONSTRAINT fk_categogy FOREIGN KEY(categogy_id) REFERENCES categogy(categogy_id)
+  CONSTRAINT fk_category FOREIGN KEY(category_id) REFERENCES category(category_id)
 )
-CREATE TABLE categogy (
-    categogy_id BIGINT PRIMARY KEY,
-    name_categogy VARCHAR(255) NOT NULL
+CREATE TABLE category (
+    category_id BIGINT PRIMARY KEY,
+    name_category VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE outcome (
     outcome_id BIGINT PRIMARY KEY,
-    date_time DATE NOT NULL
+    date_time DATE NOT NULL,
+	transaction_id BIGINT,
+		CONSTRAINT transactions_outcome
+        FOREIGN KEY (transaction_id)
+        REFERENCES transactions (transaction_id)
 );
 CREATE TABLE income (
     income_id BIGINT PRIMARY KEY,
-    date_time DATE NOT NULL
+    date_time DATE NOT NULL,
+	transaction_id BIGINT,
+	CONSTRAINT transactions_income
+        FOREIGN KEY (transaction_id)
+        REFERENCES transactions (transaction_id)
 );
 CREATE TABLE report (
     report_id BIGINT PRIMARY KEY,
@@ -61,13 +63,13 @@ CREATE TABLE report (
 	type_report VARCHAR(10) NOT NULL
 );
 CREATE TABLE user_model_report (
-  user_id BIGINT NOT NULL,
-  report_id BIGINT NOT NULL,
+  user_id BIGINT ,
+  report_id BIGINT ,
   PRIMARY KEY (user_id, report_id),
   CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES user_model(user_id),
   CONSTRAINT fk_report FOREIGN KEY(report_id) REFERENCES report(report_id)
 )
-CREATE TABLE saving_taget(
+CREATE TABLE saving_target(
 	sv_id BIGINT PRIMARY KEY,
 	name_sv VARCHAR(255) NOT NULL,
 	describe_sv VARCHAR(255) NOT NULL,
@@ -82,19 +84,22 @@ CREATE TABLE user_model (
     enabled VARCHAR(255) NOT NULL,
 	first_name VARCHAR(255) NOT NULL,
 	last_name VARCHAR(255) NOT NULL,
-	sv_id BIGINT UNIQUE NOT NULL,
-    wallet_id BIGINT UNIQUE NOT NULL,
+	sv_id BIGINT UNIQUE ,
+    wallet_id BIGINT UNIQUE ,
     CONSTRAINT fk_user_target
         FOREIGN KEY (sv_id)
-        REFERENCES saving_taget (sv_id)
+        REFERENCES saving_target (sv_id),
+	CONSTRAINT fk_wallet_user
+        FOREIGN KEY (wallet_id)
+        REFERENCES wallet (wallet_id)
 );
 CREATE TABLE currency(
 	currency_id BIGINT PRIMARY KEY,
 	name_currency VARCHAR(255) NOT NULL
 );
 CREATE TABLE wallet_currency (
-  wallet_id BIGINT NOT NULL,
-  currency_id BIGINT NOT NULL,
+  wallet_id BIGINT ,
+  currency_id BIGINT ,
   PRIMARY KEY (wallet_id, currency_id),
   CONSTRAINT fk_wallet FOREIGN KEY(wallet_id) REFERENCES wallet(wallet_id),
   CONSTRAINT fk_currency FOREIGN KEY(currency_id) REFERENCES currency(currency_id)
@@ -104,8 +109,5 @@ CREATE TABLE wallet (
     cash INT NOT NULL,
     creadit INT NOT NULL,
     total INT NOT NULL,
-    user_id BIGINT UNIQUE NOT NULL,
-    CONSTRAINT fk_wallet_user
-        FOREIGN KEY (user_id)
-        REFERENCES user_model (user_id)
+    keycloak_id BIGINT UNIQUE
 );

@@ -42,7 +42,7 @@ public class cardController {
     }
     @PostMapping
     @PreAuthorize("hasRole('client_admin')")
-    public ResponseEntity<card> saveCardBrand(card card) {
+    public ResponseEntity<card> saveCard(card card) {
         card savedCard = cardService.saveCard(card);
         return ResponseEntity.ok(savedCard);
     }
@@ -72,5 +72,4 @@ public class cardController {
             return ResponseEntity.notFound().build();
         }
     }
-
 }

@@ -23,5 +23,8 @@ public class outcome {
     @JoinColumn(name = "transaction_id",nullable = false,referencedColumnName = "transaction_id")
     @JsonBackReference
     private transactions transactions;
+
+    public void setDate_time(String dateTime) {
+    }
 }
 

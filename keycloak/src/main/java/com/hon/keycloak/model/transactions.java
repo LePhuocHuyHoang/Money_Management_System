@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -28,11 +27,11 @@ public class transactions {
     private card card;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "transaction_categogy",
+    @JoinTable(name = "transaction_category",
             joinColumns = @JoinColumn(name = "transaction_id"),
-            inverseJoinColumns = @JoinColumn(name = "categogy_id"))
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     @JsonManagedReference
-    private Set<categogy> categogy;
+    private Set<category> category;
 
     @OneToMany(mappedBy = "transactions", cascade = CascadeType.ALL)
     @JsonManagedReference

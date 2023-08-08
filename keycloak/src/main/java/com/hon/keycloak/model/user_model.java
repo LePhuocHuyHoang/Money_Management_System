@@ -30,7 +30,7 @@ public class user_model {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sv_id", referencedColumnName = "sv_id")
-    private saving_taget savingTaget;
+    private saving_target savingTarget;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_model_report",

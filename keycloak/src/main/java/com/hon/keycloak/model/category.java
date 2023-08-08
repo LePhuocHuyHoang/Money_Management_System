@@ -13,14 +13,14 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "categogy")
-public class categogy {
+@Table(name = "category")
+public class category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private BigInteger categogy_id;
-    private String name_categogy;
+    private BigInteger category_id;
+    private String name_category;
 
-    @ManyToMany(mappedBy = "categogy")
+    @ManyToMany(mappedBy = "category")
     @JsonBackReference
     private Set<transactions> transactions;
 }

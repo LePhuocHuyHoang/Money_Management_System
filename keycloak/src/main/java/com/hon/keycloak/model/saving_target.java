@@ -12,8 +12,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "saving_taget")
-public class saving_taget {
+@Table(name = "saving_target")
+public class saving_target {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger sv_id;
@@ -22,6 +22,6 @@ public class saving_taget {
     private Date start_date;
     private Date end_date;
 
-    @OneToOne(mappedBy = "savingTaget")
+    @OneToOne(mappedBy = "savingTarget")
     private user_model userModel;
 }
