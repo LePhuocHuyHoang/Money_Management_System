@@ -29,4 +29,6 @@ public class card {
     @OneToMany(mappedBy = "card", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonManagedReference
     private Set<transactions> transactions;
+
+
 }

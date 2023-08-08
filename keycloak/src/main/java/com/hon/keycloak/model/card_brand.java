@@ -20,4 +20,6 @@ public class card_brand {
 
     @OneToOne(mappedBy = "cardBrand")
     private card card;
+
+
 }

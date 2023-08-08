@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import com.hon.keycloak.repository.cardRepository;
+import com.hon.keycloak.repository.card_brandRepository;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -17,9 +19,15 @@ import java.util.Map;
 public class cardController {
     @Autowired
     private final cardService cardService;
+    @Autowired
+    private cardRepository cardRepository;
+    @Autowired
+    private card_brandRepository card_brandRepository;
 
-    public cardController(com.hon.keycloak.service.cardService cardService) {
+    public cardController(com.hon.keycloak.service.cardService cardService, com.hon.keycloak.repository.cardRepository cardRepository, com.hon.keycloak.repository.card_brandRepository card_brandRepository) {
         this.cardService = cardService;
+        this.cardRepository = cardRepository;
+        this.card_brandRepository = card_brandRepository;
     }
 
     @GetMapping
@@ -37,6 +45,16 @@ public class cardController {
     public ResponseEntity<card> saveCardBrand(card card) {
         card savedCard = cardService.saveCard(card);
         return ResponseEntity.ok(savedCard);
+    }
+    @PutMapping("/{cardId}/card_brand/{cardBrandId}")
+    card addCardBrandToStudent(
+            @PathVariable BigInteger cardId,
+            @PathVariable BigInteger cardBrandId
+    ) {
+        card card = cardRepository.findById(cardId).get(); // Lấy đối tượng card từ repository
+        card_brand cardBrand = card_brandRepository.findById(cardBrandId).get(); // Lấy đối tượng card_brand từ repository
+        card.setCardBrand(cardBrand); // Đặt cardBrand cho card
+        return cardRepository.save(card);
     }
     @DeleteMapping("/{cardId}")
     @PreAuthorize("hasAnyRole('client_user', 'client_admin')")
