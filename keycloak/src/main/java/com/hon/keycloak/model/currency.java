@@ -23,4 +23,4 @@ public class currency {
     @ManyToMany(mappedBy = "currency")
     @JsonBackReference
     private Set<wallet> wallet;
-}
+}//

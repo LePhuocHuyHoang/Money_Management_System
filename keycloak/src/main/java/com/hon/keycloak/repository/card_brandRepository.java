@@ -10,3 +10,4 @@ import java.util.List;
 
 public interface card_brandRepository extends JpaRepository<card_brand, BigInteger> {
 }
+//

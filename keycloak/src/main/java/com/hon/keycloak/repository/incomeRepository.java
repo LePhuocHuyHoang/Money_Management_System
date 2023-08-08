@@ -7,3 +7,4 @@ import java.math.BigInteger;
 
 public interface incomeRepository extends JpaRepository<income, BigInteger> {
 }
+//

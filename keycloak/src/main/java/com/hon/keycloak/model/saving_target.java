@@ -25,3 +25,4 @@ public class saving_target {
     @OneToOne(mappedBy = "savingTarget")
     private user_model userModel;
 }
+//

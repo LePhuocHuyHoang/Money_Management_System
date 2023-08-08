@@ -8,3 +8,4 @@ import java.util.List;
 
 public interface cardRepository extends JpaRepository<card, BigInteger> {
 }
+//

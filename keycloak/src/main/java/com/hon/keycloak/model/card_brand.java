@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
-
+//
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

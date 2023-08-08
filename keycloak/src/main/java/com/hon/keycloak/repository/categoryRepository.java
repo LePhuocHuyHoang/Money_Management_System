@@ -7,3 +7,4 @@ import java.math.BigInteger;
 
 public interface categoryRepository extends JpaRepository<category, BigInteger> {
 }
+//
