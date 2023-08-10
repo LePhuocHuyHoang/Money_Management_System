@@ -1,5 +1,7 @@
 package com.hon.keycloak.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,11 +25,11 @@ public class wallet {
     private int total;
     private BigInteger keycloak_id;
 
-    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<transactions> transactions;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "wallet_currency",
             joinColumns = @JoinColumn(name = "wallet_id"),
             inverseJoinColumns = @JoinColumn(name = "currency_id"))

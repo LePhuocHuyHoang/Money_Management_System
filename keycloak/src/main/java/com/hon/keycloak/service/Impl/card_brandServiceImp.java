@@ -45,10 +45,9 @@ public class card_brandServiceImp implements card_brandService{
     @Override
     public card_brand updateCardBrand(BigInteger cardBrandId, Map<String, String> formData) {
         card_brand existingCardBrand = cardBrandRepository.findById(cardBrandId).orElse(null);
-        if (existingCardBrand != null) {
+        if (existingCardBrand != null) {  //Kiểm tra đối tượng có tồn tại
             String nameBrand = formData.get("name_brand");
             existingCardBrand.setName_brand(nameBrand);
-
                     return cardBrandRepository.save(existingCardBrand);
                 }
                 return null;

@@ -1,5 +1,7 @@
 package com.hon.keycloak.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,8 +20,7 @@ public class card_brand {
     private BigInteger brand_id;
     private String name_brand;
 
-    @OneToOne(mappedBy = "cardBrand")
+    @OneToOne(mappedBy = "card_brand")
+    @JsonBackReference
     private card card;
-
-
 }

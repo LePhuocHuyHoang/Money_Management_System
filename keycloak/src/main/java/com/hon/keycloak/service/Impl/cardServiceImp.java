@@ -16,8 +16,7 @@ public class cardServiceImp implements cardService {
         this.cardRepository = cardRepository;
     }
     public List<card> getAllCard(){
-        return cardRepository
-                .findAll();
+        return cardRepository.findAll();
     }
 
     @Override
@@ -40,7 +39,7 @@ public class cardServiceImp implements cardService {
     @Override
     public card updateCard(BigInteger cardId, Map<String, String> formData) {
         card existingCard = cardRepository.findById(cardId).orElse(null);
-        if (existingCard != null) {
+        if (existingCard != null) {  //Kiểm tra đối tượng có tồn tại
             String amount = formData.get("amount");
             String cardNumber = formData.get("card_number");
             String symbol = formData.get("symbol");

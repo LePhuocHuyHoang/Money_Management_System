@@ -1,5 +1,7 @@
 package com.hon.keycloak.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,13 +24,12 @@ public class card {
     private String card_number;
     private String symbol;
 
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "brand_id", referencedColumnName = "brand_id")
-    private card_brand cardBrand;
-
-    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "brand_id")
     @JsonManagedReference
+    private card_brand card_brand;
+
+    @OneToMany(mappedBy = "card")
+    @JsonBackReference
     private Set<transactions> transactions;
-
-
 }
