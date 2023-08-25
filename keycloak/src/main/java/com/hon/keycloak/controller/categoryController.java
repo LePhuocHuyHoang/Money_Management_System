@@ -1,8 +1,8 @@
 package com.hon.keycloak.controller;
 
-import com.hon.keycloak.log.Log;
+import com.hon.keycloak.log.logger;
 import com.hon.keycloak.service.categoryService;
-import com.hon.keycloak.model.category;
+import com.hon.keycloak.entity.category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,14 +25,14 @@ public class categoryController {
     @GetMapping
     @PreAuthorize("hasRole('client_admin')")
     public ResponseEntity<List<category>> findAllCategory() {
-        Log.info("Find All Category Success");
+        logger.info("Find All Category Success");
         return ResponseEntity.ok(categoryService.getAllCategory());
     }
     //Find Category By ID
     @GetMapping("/{categoryId}")
     @PreAuthorize("hasAnyRole('client_user', 'client_admin')")
     public ResponseEntity<category> getCategory(@PathVariable BigInteger categoryId) {
-        Log.info("Find Category Success");
+        logger.info("Find Category Success");
         return ResponseEntity.ok((category) categoryService.getCategory(categoryId));
     }
     //Create New Category
@@ -40,27 +40,27 @@ public class categoryController {
     @PreAuthorize("hasRole('client_admin')")
     public ResponseEntity<category> saveCategory(category category) {
         category savedCategory = categoryService.saveCategory(category);
-        Log.info("Create Category Success");
+        logger.info("Create Category Success");
         return ResponseEntity.ok(savedCategory);
     }
-    //Delete Category By ID
-    @DeleteMapping("/{categoryId}")
-    @PreAuthorize("hasAnyRole('client_user', 'client_admin')")
-    public ResponseEntity<List<category>> deleteCategory(@PathVariable BigInteger categoryId) {
-        categoryService.deleteCategory(categoryId);
-        Log.info("Delete Category Success");
-        return ResponseEntity.ok(categoryService.getAllCategory());
+    //Delete Category
+    @GetMapping("/not-deleted")
+    @PreAuthorize("hasRole('client_admin')")
+    public ResponseEntity<List<category>> getCategoryNotDeleted() {
+        List<category> notDeletedCategory = categoryService.getCategoryNotDeleted();
+        logger.info("Delete Category Success");
+        return ResponseEntity.ok(notDeletedCategory);
     }
     //Update Category By ID
     @PutMapping("/{categoryId}")
-    @PreAuthorize("hasAnyRole('client_user', 'client_admin')")
+    @PreAuthorize("hasRole('client_admin')")
     public ResponseEntity<category> updateCategory(@PathVariable BigInteger categoryId, @RequestParam Map<String, String> formData) {
         category updatedCategoryResult = categoryService.updateCategory(categoryId, formData);
         if (updatedCategoryResult != null) {
-            Log.info("Update Category Success");
+            logger.info("Update Category Success");
             return ResponseEntity.ok(updatedCategoryResult);
         } else {
-            Log.error("Can Find Category Update");
+            logger.error("Can Find Category Update");
             return ResponseEntity.notFound().build();
         }
     }

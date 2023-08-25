@@ -1,6 +1,6 @@
 package com.hon.keycloak.service.Impl;
 import com.hon.keycloak.service.card_brandService;
-import com.hon.keycloak.model.card_brand;
+import com.hon.keycloak.entity.card_brand;
 import com.hon.keycloak.repository.card_brandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,8 +38,8 @@ public class card_brandServiceImp implements card_brandService{
     }
 
     @Override
-    public void deleteCardBrand(BigInteger cardBrandId) {
-        cardBrandRepository.deleteById(cardBrandId);
+    public List<card_brand> getCardBrandNotDeleted() {
+        return cardBrandRepository.findCardBrandNotDeleted();
     }
 
     @Override
@@ -48,8 +48,10 @@ public class card_brandServiceImp implements card_brandService{
         if (existingCardBrand != null) {  //Kiểm tra đối tượng có tồn tại
             String nameBrand = formData.get("name_brand");
             existingCardBrand.setName_brand(nameBrand);
+            String status = formData.get("status");
+            existingCardBrand.setStatus(status);
                     return cardBrandRepository.save(existingCardBrand);
                 }
                 return null;
             }
-    }//
+    }

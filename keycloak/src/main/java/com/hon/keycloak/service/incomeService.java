@@ -1,7 +1,6 @@
 package com.hon.keycloak.service;
 
-import com.hon.keycloak.model.income;
-import com.hon.keycloak.model.transactions;
+import com.hon.keycloak.entity.income;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -13,7 +12,7 @@ public interface incomeService {
 
     Object getIncome(BigInteger incomeId);
 
-    void deleteIncome(BigInteger incomeId);
+    List<income> getIncomeNotDeleted();
 
     income updateIncome(BigInteger incomeId, Map<String, String> formData);
 }

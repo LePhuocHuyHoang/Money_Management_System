@@ -1,5 +1,6 @@
 package com.hon.keycloak.service.Impl;
-import com.hon.keycloak.model.card;
+
+import com.hon.keycloak.entity.card;
 import com.hon.keycloak.repository.cardRepository;
 import com.hon.keycloak.service.cardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.Map;
 public class cardServiceImp implements cardService {
     private final cardRepository cardRepository;
     @Autowired
-    public cardServiceImp(com.hon.keycloak.repository.cardRepository cardRepository) {
+    public cardServiceImp(cardRepository cardRepository) {
         this.cardRepository = cardRepository;
     }
     public List<card> getAllCard(){
@@ -31,10 +32,9 @@ public class cardServiceImp implements cardService {
                 .findById(cardId)
                 .orElse(null);
     }
-
     @Override
-    public void deleteCard(BigInteger cardId) {
-        cardRepository.deleteById(cardId);
+    public List<card> getCardNotDeleted() {
+        return cardRepository.findCardNotDeleted();
     }
     @Override
     public card updateCard(BigInteger cardId, Map<String, String> formData) {
@@ -43,6 +43,8 @@ public class cardServiceImp implements cardService {
             String amount = formData.get("amount");
             String cardNumber = formData.get("card_number");
             String symbol = formData.get("symbol");
+            String status = formData.get("status");
+            existingCard.setStatus(status);
             existingCard.setAmount(Integer.parseInt(amount));
             existingCard.setCard_number(cardNumber);
             existingCard.setSymbol(symbol);
@@ -51,4 +53,3 @@ public class cardServiceImp implements cardService {
         return null;
     }
 }
-//

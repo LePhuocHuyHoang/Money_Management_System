@@ -1,7 +1,7 @@
 package com.hon.keycloak.controller;
 
-import com.hon.keycloak.log.Log;
-import com.hon.keycloak.model.transactions;
+import com.hon.keycloak.log.logger;
+import com.hon.keycloak.entity.transactions;
 import com.hon.keycloak.service.transactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +25,14 @@ public class transactionController {
     @GetMapping
     @PreAuthorize("hasRole('client_admin')")
     public ResponseEntity<List<transactions>> findAllTransaction() {
-        Log.info("Find All Transaction Success");
+        logger.info("Find All Transaction Success");
         return ResponseEntity.ok(transactionService.getAllTransaction());
     }
     //Find Transaction By ID
     @GetMapping("/{transactionId}")
     @PreAuthorize("hasAnyRole('client_user', 'client_admin')")
     public ResponseEntity<transactions> getTransaction(@PathVariable BigInteger transactionId) {
-        Log.info("Find Transaction Success");
+        logger.info("Find Transaction Success");
         return ResponseEntity.ok((transactions) transactionService.getTransaction(transactionId));
     }
     //Create New Transaction
@@ -40,27 +40,27 @@ public class transactionController {
     @PreAuthorize("hasRole('client_admin')")
     public ResponseEntity<transactions> saveTransaction(transactions transactions) {
         transactions savedTransaction = transactionService.saveTransaction(transactions);
-        Log.info("Create Transaction Success");
+        logger.info("Create Transaction Success");
         return ResponseEntity.ok(savedTransaction);
     }
-    //Delete Transaction By ID
-    @DeleteMapping("/{transactionId}")
-    @PreAuthorize("hasAnyRole('client_user', 'client_admin')")
-    public ResponseEntity<List<transactions>> deleteTransaction(@PathVariable BigInteger transactionId) {
-        transactionService.deleteTransaction(transactionId);
-        Log.info("Delete Transaction Success");
-        return ResponseEntity.ok(transactionService.getAllTransaction());
+    //Delete Transaction
+    @GetMapping("/not-deleted")
+    @PreAuthorize("hasRole('client_admin')")
+    public ResponseEntity<List<transactions>> getTransactionNotDeleted() {
+        List<transactions> notDeletedTransaction = transactionService.getTransactionNotDeleted();
+        logger.info("Delete Transaction Success");
+        return ResponseEntity.ok(notDeletedTransaction);
     }
     //Update Transaction By ID
     @PutMapping("/{transactionId}")
-    @PreAuthorize("hasAnyRole('client_user', 'client_admin')")
+    @PreAuthorize("hasRole('client_admin')")
     public ResponseEntity<transactions> updateTransaction(@PathVariable BigInteger transactionId, @RequestParam Map<String, String> formData) {
         transactions updatedTransactionResult =transactionService.updateTransaction(transactionId, formData);
         if (updatedTransactionResult != null) {
-            Log.info("Update Transaction Success");
+            logger.info("Update Transaction Success");
             return ResponseEntity.ok(updatedTransactionResult);
         } else {
-            Log.error("Can Find Transaction Update");
+            logger.error("Can Find Transaction Update");
             return ResponseEntity.notFound().build();
         }
     }

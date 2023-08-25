@@ -1,8 +1,7 @@
 package com.hon.keycloak.service.Impl;
 
-import com.hon.keycloak.log.Log;
-import com.hon.keycloak.model.income;
-import com.hon.keycloak.model.outcome;
+import com.hon.keycloak.log.logger;
+import com.hon.keycloak.entity.income;
 import com.hon.keycloak.repository.incomeRepository;
 import com.hon.keycloak.service.incomeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +39,8 @@ public class incomeServiceImp implements incomeService {
     }
 
     @Override
-    public void deleteIncome(BigInteger incomeId) {
-        incomeRepository.deleteById(incomeId);
+    public List<income> getIncomeNotDeleted() {
+        return incomeRepository.findIncomeNotDeleted();
     }
     @Override
     public income updateIncome(BigInteger incomeId, Map<String, String> formData) {
@@ -52,10 +51,12 @@ public class incomeServiceImp implements incomeService {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 Date dateTime = dateFormat.parse(dateTimeStr);
                 existingIncome.setDate_time(dateTime);
+                String status = formData.get("status");
+                existingIncome.setStatus(status);
                 return incomeRepository.save(existingIncome);
             } catch (ParseException e) {
                 // Xử lý lỗi khi không thể chuyển đổi chuỗi thành ngày tháng
-                Log.error("Can Change String To Date");
+                logger.error("Can Change String To Date");
                 e.printStackTrace();
                 return null;
             }

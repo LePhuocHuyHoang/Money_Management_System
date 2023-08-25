@@ -1,7 +1,7 @@
 package com.hon.keycloak.service;
 
 
-import com.hon.keycloak.model.outcome;
+import com.hon.keycloak.entity.outcome;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -13,7 +13,7 @@ public interface outcomeService {
 
     Object getOutcome(BigInteger outcomeId);
 
-    void deleteOutcome(BigInteger outcomeId);
+    List<outcome> getOutcomeNotDeleted();
 
     outcome updateOutcome(BigInteger outcomeId, Map<String, String> formData);
 }

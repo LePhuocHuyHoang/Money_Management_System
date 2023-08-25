@@ -1,6 +1,7 @@
 CREATE TABLE card_brand (
     brand_id BIGINT PRIMARY KEY,
-    name_brand VARCHAR(255) NOT NULL
+    name_brand VARCHAR(255) NOT NULL,
+	status VARCHAR(20) CHECK (status IN ('active', 'inactive'))
 );
 
 CREATE TABLE card (
@@ -9,6 +10,7 @@ CREATE TABLE card (
     card_number VARCHAR(20) NOT NULL,
     symbol VARCHAR(10) NOT NULL,
     brand_id BIGINT UNIQUE,
+	status VARCHAR(20) CHECK (status IN ('active', 'inactive')),
     CONSTRAINT fk_card
         FOREIGN KEY (brand_id)
         REFERENCES card_brand (brand_id)
@@ -22,6 +24,7 @@ CREATE TABLE transactions (
 	wallet_id BIGINT,
 	outcome_id BIGINT,
 	income_id BIGINT,
+	status VARCHAR(20) CHECK (status IN ('active', 'inactive')),
 	CONSTRAINT transactions_card
         FOREIGN KEY (card_id)
         REFERENCES card (card_id),
@@ -29,6 +32,7 @@ CREATE TABLE transactions (
         FOREIGN KEY (wallet_id)
         REFERENCES wallet (wallet_id)
 );
+
 CREATE TABLE transaction_category (
   transaction_id BIGINT ,
   category_id BIGINT ,
@@ -38,30 +42,37 @@ CREATE TABLE transaction_category (
 )
 CREATE TABLE category (
     category_id BIGINT PRIMARY KEY,
-    name_category VARCHAR(255) NOT NULL
+    name_category VARCHAR(255) NOT NULL,
+	status VARCHAR(20) CHECK (status IN ('active', 'inactive'))
 );
 
 CREATE TABLE outcome (
     outcome_id BIGINT PRIMARY KEY,
     date_time DATE NOT NULL,
 	transaction_id BIGINT,
+	status VARCHAR(20) CHECK (status IN ('active', 'inactive')),
 		CONSTRAINT transactions_outcome
         FOREIGN KEY (transaction_id)
         REFERENCES transactions (transaction_id)
 );
+
 CREATE TABLE income (
     income_id BIGINT PRIMARY KEY,
     date_time DATE NOT NULL,
 	transaction_id BIGINT,
+	status VARCHAR(20) CHECK (status IN ('active', 'inactive')),
 	CONSTRAINT transactions_income
         FOREIGN KEY (transaction_id)
         REFERENCES transactions (transaction_id)
 );
+
 CREATE TABLE report (
     report_id BIGINT PRIMARY KEY,
     name_report VARCHAR(255) NOT NULL,
-	type_report VARCHAR(10) NOT NULL
+	type_report VARCHAR(10) NOT NULL,
+	status VARCHAR(20) CHECK (status IN ('active', 'inactive'))
 );
+
 CREATE TABLE user_model_report (
   user_id BIGINT ,
   report_id BIGINT ,
@@ -75,8 +86,11 @@ CREATE TABLE saving_target(
 	describe_sv VARCHAR(255) NOT NULL,
 	amount_sv INT NOT NULL,
 	start_date DATE NOT NULL,
-	end_date DATE NOT NULL
+	end_date DATE NOT NULL,
+	status VARCHAR(20) CHECK (status IN ('active', 'inactive'))
 );
+ALTER TABLE saving_target
+    ADD COLUMN status VARCHAR(20) CHECK (status IN ('active', 'inactive'));
 CREATE TABLE user_model (
     user_id BIGINT PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
@@ -86,6 +100,7 @@ CREATE TABLE user_model (
 	last_name VARCHAR(255) NOT NULL,
 	sv_id BIGINT UNIQUE ,
     wallet_id BIGINT UNIQUE ,
+	status VARCHAR(20) CHECK (status IN ('active', 'inactive')),
     CONSTRAINT fk_user_target
         FOREIGN KEY (sv_id)
         REFERENCES saving_target (sv_id),
@@ -93,10 +108,13 @@ CREATE TABLE user_model (
         FOREIGN KEY (wallet_id)
         REFERENCES wallet (wallet_id)
 );
+
 CREATE TABLE currency(
 	currency_id BIGINT PRIMARY KEY,
-	name_currency VARCHAR(255) NOT NULL
+	name_currency VARCHAR(255) NOT NULL,
+	status VARCHAR(20) CHECK (status IN ('active', 'inactive'))
 );
+
 CREATE TABLE wallet_currency (
   wallet_id BIGINT ,
   currency_id BIGINT ,
@@ -109,5 +127,6 @@ CREATE TABLE wallet (
     cash INT NOT NULL,
     creadit INT NOT NULL,
     total INT NOT NULL,
-    keycloak_id BIGINT UNIQUE
+    keycloak_id BIGINT UNIQUE,
+	status VARCHAR(20) CHECK (status IN ('active', 'inactive'))
 );

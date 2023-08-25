@@ -1,6 +1,6 @@
 package com.hon.keycloak.service;
 
-import com.hon.keycloak.model.category;
+import com.hon.keycloak.entity.category;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -12,7 +12,7 @@ public interface categoryService {
 
     Object getCategory(BigInteger categoryId);
 
-    void deleteCategory(BigInteger categoryId);
+    List<category> getCategoryNotDeleted();
 
     category updateCategory(BigInteger categoryId, Map<String, String> formData);
 }

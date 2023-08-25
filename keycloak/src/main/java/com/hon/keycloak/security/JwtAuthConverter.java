@@ -18,7 +18,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-//
+
+//Chuyển đổi Token thành một đối tượng xác thực của Spring Security
+// Chứa thông tin xác thực từ Token định cấu hình Xác thực và Ủy quyền
+
+//Triển khai một bộ chuyển đổi từ Jwt thành AbstractAuthenticationToken
 @Component
 public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
@@ -33,17 +37,18 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
     @Override
     public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {
         Collection<GrantedAuthority> authorities = Stream.concat(
-                jwtGrantedAuthoritiesConverter.convert(jwt).stream(),
-                extractResourceRoles(jwt).stream()
-        ).collect(Collectors.toSet());
+                jwtGrantedAuthoritiesConverter.convert(jwt).stream(), //lấy danh sách các quyền từ JWT.
+                extractResourceRoles(jwt).stream() //lấy danh sách các quyền ủy quyền từ JWT.
+        ).collect(Collectors.toSet()); // Kết hợp thành 1 danh sách
 
+        //Đối tượng JwtAuthenticationToken với các thông tin vừa lấy được
         return new JwtAuthenticationToken(
                 jwt,
                 authorities,
                 getPrincipleClaimName(jwt)
         );
     }
-
+    // xác định tên claim chứa thông tin người dùng
     private String getPrincipleClaimName(Jwt jwt) {
         String claimName = JwtClaimNames.SUB;
         if (principleAttribute != null) {
@@ -52,6 +57,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         return jwt.getClaim(claimName);
     }
 
+    //trích xuất danh sách quyền ủy quyền từ claim
     private Collection<? extends GrantedAuthority> extractResourceRoles(Jwt jwt) {
         Map<String, Object> resourceAccess;
         Map<String, Object> resource;

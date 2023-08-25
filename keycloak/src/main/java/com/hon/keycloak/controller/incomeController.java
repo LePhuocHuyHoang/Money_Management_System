@@ -1,7 +1,7 @@
 package com.hon.keycloak.controller;
 
-import com.hon.keycloak.log.Log;
-import com.hon.keycloak.model.income;
+import com.hon.keycloak.log.logger;
+import com.hon.keycloak.entity.income;
 import com.hon.keycloak.service.incomeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +26,14 @@ public class incomeController {
     @GetMapping
     @PreAuthorize("hasRole('client_admin')")
     public ResponseEntity<List<income>> findAllIncome() {
-        Log.info("Find All Income Success");
+        logger.info("Find All Income Success");
         return ResponseEntity.ok(incomeService.getAllIncome());
     }
     //Find Income By ID
     @GetMapping("/{incomeId}")
     @PreAuthorize("hasAnyRole('client_user', 'client_admin')")
     public ResponseEntity<income> getIncome(@PathVariable BigInteger incomeId) {
-        Log.info("Find Income Success");
+        logger.info("Find Income Success");
         return ResponseEntity.ok((income) incomeService.getIncome(incomeId));
     }
     //Create New Income
@@ -41,27 +41,27 @@ public class incomeController {
     @PreAuthorize("hasRole('client_admin')")
     public ResponseEntity<income> saveIncome(income income) {
         income savedIncome = incomeService.saveIncome(income);
-        Log.info("Create Income Success");
+        logger.info("Create Income Success");
         return ResponseEntity.ok(savedIncome);
     }
-    //Delete Income By ID
-    @DeleteMapping("/{incomeId}")
-    @PreAuthorize("hasAnyRole('client_user', 'client_admin')")
-    public ResponseEntity<List<income>> deleteIncome(@PathVariable BigInteger incomeId) {
-        incomeService.deleteIncome(incomeId);
-        Log.info("Delete Income Success");
-        return ResponseEntity.ok(incomeService.getAllIncome());
+    //Delete Income
+    @GetMapping("/not-deleted")
+    @PreAuthorize("hasRole('client_admin')")
+    public ResponseEntity<List<income>> getIncomeNotDeleted() {
+        List<income> notDeletedIncome = incomeService.getIncomeNotDeleted();
+        logger.info("Delete Income Success");
+        return ResponseEntity.ok(notDeletedIncome);
     }
     //Update Income By ID
     @PutMapping("/{incomeId}")
-    @PreAuthorize("hasAnyRole('client_user', 'client_admin')")
+    @PreAuthorize("hasRole('client_admin')")
     public ResponseEntity<income> updateIncome(@PathVariable BigInteger incomeId, @RequestParam Map<String, String> formData) {
         income updatedIncomeResult =incomeService.updateIncome(incomeId, formData);
         if (updatedIncomeResult != null) {
-            Log.info("Update Income Success");
+            logger.info("Update Income Success");
             return ResponseEntity.ok(updatedIncomeResult);
         } else {
-            Log.error("Can Find Income Update");
+            logger.error("Can Find Income Update");
             return ResponseEntity.notFound().build();
         }
     }

@@ -1,7 +1,7 @@
 package com.hon.keycloak.service;
 
 
-import com.hon.keycloak.model.transactions;
+import com.hon.keycloak.entity.transactions;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -13,8 +13,9 @@ public interface transactionService {
 
     Object getTransaction(BigInteger transactionId);
 
-    void deleteTransaction(BigInteger transactionId);
+    List<transactions> getTransactionNotDeleted();
 
     transactions updateTransaction(BigInteger transactionId, Map<String, String> formData);
+
 }
 //

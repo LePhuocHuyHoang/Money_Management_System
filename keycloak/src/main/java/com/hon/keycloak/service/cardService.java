@@ -1,6 +1,6 @@
 package com.hon.keycloak.service;
 
-import com.hon.keycloak.model.card;
+import com.hon.keycloak.entity.card;
 
 
 import java.math.BigInteger;
@@ -13,8 +13,8 @@ public interface cardService {
 
     Object getCard(BigInteger cardId);
 
-    void deleteCard(BigInteger cardId);
+    List<card> getCardNotDeleted();
+
 
     card updateCard(BigInteger cardId, Map<String, String> formData);
 }
-//

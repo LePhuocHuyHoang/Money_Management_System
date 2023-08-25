@@ -1,6 +1,6 @@
 package com.hon.keycloak.service;
 
-import com.hon.keycloak.model.card_brand;
+import com.hon.keycloak.entity.card_brand;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -14,7 +14,7 @@ public interface card_brandService {
 
     Object getCardBrand(BigInteger cardBrandId);
 
-    void deleteCardBrand(BigInteger cardBrandId);
+    List<card_brand> getCardBrandNotDeleted();
 
 
     card_brand updateCardBrand(BigInteger cardBrandId, Map<String, String> formData);

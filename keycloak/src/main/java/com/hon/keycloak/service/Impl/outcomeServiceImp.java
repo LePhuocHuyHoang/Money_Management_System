@@ -1,8 +1,7 @@
 package com.hon.keycloak.service.Impl;
 
-import com.hon.keycloak.log.Log;
-import com.hon.keycloak.model.income;
-import com.hon.keycloak.model.outcome;
+import com.hon.keycloak.log.logger;
+import com.hon.keycloak.entity.outcome;
 import com.hon.keycloak.repository.outcomeRepository;
 import com.hon.keycloak.service.outcomeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +41,8 @@ public class outcomeServiceImp implements outcomeService {
     }
 
     @Override
-    public void deleteOutcome(BigInteger outcomeId) {
-        outcomeRepository.deleteById(outcomeId);
+    public List<outcome> getOutcomeNotDeleted() {
+        return outcomeRepository.findOutcomeNotDeleted();
     }
 
     @Override
@@ -55,10 +54,12 @@ public class outcomeServiceImp implements outcomeService {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 Date dateTime = dateFormat.parse(dateTimeStr);
                 existingOutcome.setDate_time(dateTime);
+                String status = formData.get("status");
+                existingOutcome.setStatus(status);
                 return outcomeRepository.save(existingOutcome);
             } catch (ParseException e) {
                 // Xử lý lỗi khi không thể chuyển đổi chuỗi thành ngày tháng
-                Log.error("Can Change String To Date");
+                logger.error("Can Change String To Date");
                 e.printStackTrace();
                 return null;
             }

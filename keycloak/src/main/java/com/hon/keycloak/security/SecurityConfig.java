@@ -9,7 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-//
+
+//Tiến hành cấu hình bảo mật hệ thống và xác thực, ủy quyền
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -20,17 +21,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .csrf()
-                    .disable()
+                    .disable()   //Tắt cơ chế bảo vệ khỏi CSRF
                 .authorizeHttpRequests()
                      .anyRequest()
-                         .authenticated();
+                         .authenticated(); //Các yêu cầu phải được xác thực
         http
                 .oauth2ResourceServer()
                      .jwt()
-                        .jwtAuthenticationConverter(jwtAuthConverter);
+                        .jwtAuthenticationConverter(jwtAuthConverter); //Sử dụng JwtAuthConverter để chuyển đổi JWT thành đối tượng xác thực
         http
                 .sessionManagement()
-                    .sessionCreationPolicy(STATELESS);
+                    .sessionCreationPolicy(STATELESS); //Đặt chế độ tạo phiên (Không cần phiên)
         return http.build();
     }
 }

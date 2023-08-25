@@ -1,7 +1,7 @@
 package com.hon.keycloak.service.Impl;
 
 import com.hon.keycloak.service.transactionService;
-import com.hon.keycloak.model.transactions;
+import com.hon.keycloak.entity.transactions;
 import com.hon.keycloak.repository.transactionRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +36,8 @@ public class transactionServiceImp implements transactionService {
     }
 
     @Override
-    public void deleteTransaction(BigInteger transactionId) {
-        transactionRepository.deleteById(transactionId);
+    public List<transactions> getTransactionNotDeleted() {
+        return transactionRepository.findTransactionNotDeleted();
     }
     @Override
     public transactions updateTransaction(BigInteger transactionId, Map<String, String> formData) {
@@ -47,6 +47,8 @@ public class transactionServiceImp implements transactionService {
             String note = formData.get("note");
             existingTransaction.setAmount(Integer.parseInt(amount));
             existingTransaction.setNote(note);
+            String status = formData.get("status");
+            existingTransaction.setStatus(status);
             return transactionRepository.save(existingTransaction);
         }
         return null;
